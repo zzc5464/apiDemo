@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+        .content {
+            width: 200px;
+            height: 130px;
+            border:1px solid #e7e7e7;
+        }
+    </style>
+</head>
+<body>
+    <input id="txt" type="text" name="question">
+    <input id="btn" type="button" value="提交">
+
+    <div class="content">
+
+    </div>
+    <script src="../jquery-1.12.4.min.js"></script>
+    <script src="../artTemplate/template-web.js"></script>
+    <script type="text/html" id="info">
+        <p>{{result.content}}</p>
+    </script>
+    <script>
+
+        $("#btn").click(function(){
+
+            var question = $("#txt").val();
+            $.ajax({
+                url:"http://api.jisuapi.com/iqa/query?appkey=be0614c5a2daffb3&question="+question+"",
+                dataType:"jsonp",
+                jsonp:'callback',
+                success:function(data){
+                    console.log(data);
+                    var html = template("info",data);
+                    $(".content").html(html);
+                }
+            })
+        });
+    </script>
+</body>
+</html>

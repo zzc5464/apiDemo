@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+        #box {
+            width: 500px;
+            border: 1px solid red;
+        }
+        #box .info {
+            border-top: 3px solid pink;
+        }
+    </style>
+</head>
+<body>
+    <input id="txt" type="text" placeholder="">
+    <div type="text" id="box"></div>
+    <input id="btn" type="button" value="点击">
+    <script src="../jquery-1.12.4.min.js"></script>
+    <script src="../artTemplate/template-web.js"></script>
+    <script type='text/html' id="tel">
+
+        <p>城市名：{{result.city}}</p>
+        <p>查询日期: {{result.date}}</p>
+        <p>星期： {{result.week}}</p>
+        <p>情况：{{result.aqi.aqiinfo.affect}}</p>
+        <h3>今后五天</h3>
+            {{each result.daily as value i}}
+            <div class="info">
+                <p>{{value.date}}</p>
+                <p>星期{{value.week}}</p>
+                <p>日出时间 {{value.sunrise}}</p>
+                <p>夜晚天气:{{value.night.weather}}</p>
+            </div>
+            {{/each}}
+            <h3>今日各个时间点天气</h3>
+            {{each result.hourly v}}
+                <p>
+                    <span>时间: {{v.time}}</span>
+                    <span>天气: {{v.weather}}</span>
+                </p>
+            {{/each}}
+    </script>
+    <script>
+        $("#btn").click(function(){
+            var val = $("#txt").val();
+            $.ajax({
+                url:"http://api.jisuapi.com/weather/query?appkey=be0614c5a2daffb3&city="+val+"",
+                dataType:"jsonp",
+                success:function(data){
+                    console.log(data);
+                    var html = template("tel",data)
+                    $("#box").html(html);
+                }
+/*
+
+night
+:
+{weather: "多云", templow: "20", img: "1", winddirect: "无持续风向", windpower: "微风"}
+ */
+            })
+        });
+    </script>
+</body>
+</html>

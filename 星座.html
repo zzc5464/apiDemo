@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>start</title>
+    <style type="text/css">
+        #box {
+            width: 300px;
+            height: 190px;
+            border: 1px solid #red;
+        }
+    </style>
+</head>
+<body>
+
+    <input id="btn" type="button" value="点击">
+    <div id="box"></div>
+    <script src="../jquery-1.12.4.min.js"></script>
+    <script src="../artTemplate/template-web.js"></script>
+    <script>
+        //be0614c5a2daffb3
+        $("#btn").on("click",function(){
+            $.ajax({
+                url:"http://api.jisuapi.com/astro/all?appkey=be0614c5a2daffb3",
+                dataType:"jsonp",
+                success:function(data){
+                    console.log(data);
+                }
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+        #box {
+            width: 300px;
+            height: 190px;
+            border: 1px solid #red;
+        }
+        #open,#end {
+            width: 120px;
+            height: 40px;
+
+        }
+        .info-box {
+            border: 3px solid #ccc;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input id="open" type="text" placeholder=""> -->
+    <input id="end" type="text" placeholder="">
+    <input id="gaotie" type="radio" name="" value="" placeholder="">是否为高铁？
+    <input id="btn" type="button" value="开车">
+    <div type="text" id="info">
+
+    </div>
+    <script src="../jquery-1.12.4.min.js"></script>
+    <script src="../artTemplate/template-web.js"></script>
+    <script type='text/html' id='tml'>
+        {{each result v}}
+        <div class="info-box">
+            <p>车次： {{v.trainno}}</p>
+            <p>类型： {{v.type}}</p>
+            <p>起始车站：{{v.station}}</p>
+            <p>终点车站：{{v.endstation}}</p>
+            <p>历程： {{v.distance}}</p>
+            <p>商务： {{v.pricesw}}</p>
+            <p>一等座： {{v.priceyd}}</p>
+            <p>二等座： {{v.priceed}}</p>
+            <p>总用时： {{v.costtime}}</p>
+            <p>出发时间： {{v.departuretime}}</p>
+            <p>到达时间： {{v.arrivaltime}}</p>
+        </div>
+        {{/each}}
+    </script>
+    <script>
+        //be0614c5a2daffb3
+        $("#btn").click(function(){
+            var s = $("#open").val();
+            var e = $("#end").val();
+            var isGao = $("#gaotie").prop("checked");
+            isGao = isGao?1:0;
+            console.log(isGao);
+            $.ajax({
+                url:'http://api.jisuapi.com/train/station2s?appkey=be0614c5a2daffb3&start='+s+'&end='+e+'&ishigh='+isGao+'',
+                dataType:"jsonp",
+                success:function(data) {
+                    console.log(data);
+                    var html = template("tml",data);
+                    $("#info").html(html);
+                }
+            })
+        });
+    </script>
+</body>
+</html>
